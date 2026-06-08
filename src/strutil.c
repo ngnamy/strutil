@@ -341,3 +341,20 @@ char* str_reverse_inplace(char* str)
     }
     return str;
 }
+
+char* str_reverse(const char* str)
+{
+    if (str == NULL) return NULL;
+
+    size_t str_len = strlen(str);
+    char* new_str = malloc(str_len + 1);
+    if (new_str == NULL) return NULL;
+
+    const char* src = str + str_len - 1;
+    for (size_t i = 0; i < str_len; i++)
+    {
+        new_str[i] = *src--;
+    }
+    new_str[str_len] = '\0';
+    return new_str;
+}
