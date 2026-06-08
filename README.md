@@ -10,25 +10,62 @@ Conçue avec C11, cette bibliothèque met l'accent sur :
 - **Portabilité** : compatible avec les standards C11
 - **Sécurité** : gestion robuste des pointeurs NULL et des cas limites
 
-## 🎯 Fonctionnalités
+## 📋 Feuille de route : Bibliothèque strutil
 
-### Suppression d'espaces blancs (Trimming)
-- `str_trim()` / `str_trim_inplace()` - Supprime espaces début et fin
-- `str_left_trim()` / `str_left_trim_inplace()` - Supprime espaces au début
-- `str_right_trim()` / `str_right_trim_inplace()` - Supprime espaces à la fin
+### 🔹 Module 1 : Nettoyage & Espaces (Trimming)
+*Ces fonctions retirent les espaces blancs (' ', '\t', '\n', etc.).*
 
-### Remplissage (Padding)
-- `str_pad_left()` / `str_pad_left_inplace()` - Ajoute des caractères à gauche
-- `str_pad_right()` / `str_pad_right_inplace()` - Ajoute des caractères à droite
-- `str_pad()` / `str_pad_inplace()` - Remplissage flexible (gauche/droite)
+- [x] **str_ltrim** : Supprime les espaces au début (génère une copie)
+- [x] **str_ltrim_inplace** : Supprime les espaces au début (modifie l'original)
+- [x] **str_rtrim** : Supprime les espaces à la fin (génère une copie)
+- [x] **str_rtrim_inplace** : Supprime les espaces à la fin (modifie l'original)
+- [x] **str_trim** : Supprime les espaces au début ET à la fin (génère une copie)
+- [x] **str_trim_inplace** : Supprime les espaces au début ET à la fin (modifie l'original)
 
-### Conversion de casse
-- `str_toLower()` / `str_toLower_inplace()` - Convertit en minuscules
-- `str_toUpper()` / `str_toUpper_inplace()` - Convertit en majuscules
-- `str_titleCase()` / `str_titleCase_inplace()` - Convertit en "Title Case"
+### 🔹 Module 2 : Alignement & Remplissage (Padding)
+*Ces fonctions calibrent la taille d'une chaîne avec un caractère de remplissage.*
 
-### Manipulation
-- `str_reverse_inplace()` - Inverse une chaîne de caractères
+- [x] **str_pad_left** : Aligne à gauche une chaîne dans un espace fixe (génère une copie)
+- [x] **str_pad_left_inplace** : Aligne à gauche une chaîne dans un espace fixe (modifie l'original)
+- [x] **str_pad_right** : Aligne à droite une chaîne dans un espace fixe (génère une copie)
+- [x] **str_pad_right_inplace** : Aligne à droite une chaîne dans un espace fixe (modifie l'original)
+- [x] **str_pad** : Alignement flexible (génère une copie)
+- [x] **str_pad_inplace** : Alignement flexible (modifie l'original)
+
+### 🔹 Module 3 : Casse & Transformation (Casing)
+*Ces fonctions modifient la casse des lettres (majuscules/minuscules).*
+
+- [x] **str_toLower** : Convertit toute la chaîne en minuscules (génère une copie)
+- [x] **str_toLower_inplace** : Convertit toute la chaîne en minuscules (modifie l'original)
+- [x] **str_toUpper** : Convertit toute la chaîne en majuscules (génère une copie)
+- [x] **str_toUpper_inplace** : Convertit toute la chaîne en majuscules (modifie l'original)
+- [x] **str_titleCase** : Met la première lettre de chaque mot en majuscule, le reste en minuscule (génère une copie)
+- [x] **str_titleCase_inplace** : Met la première lettre de chaque mot en majuscule (modifie l'original)
+- [x] **str_reverse_inplace** : Inverse l'ordre des caractères d'une chaîne sur place
+
+### 🔹 Module 4 : Analyse & Vérification (Predicates)
+*Ces fonctions analysent une chaîne et renvoient un booléen (1 pour vrai, 0 pour faux).*
+
+- [ ] **str_startsWith** : Vérifie si la chaîne commence par un préfixe donné
+- [ ] **str_endsWith** : Vérifie si la chaîne se termine par un suffixe donné
+- [ ] **str_contains** : Vérifie si un mot ou sous-ensemble est présent dans la chaîne
+- [ ] **str_isNumeric** : Vérifie si la chaîne ne contient que des chiffres (0-9)
+- [ ] **str_isAlpha** : Vérifie si la chaîne ne contient que des lettres de l'alphabet
+- [ ] **str_isEmptyOrWhitespace** : Vérifie si la chaîne est vide ou ne contient que des espaces
+
+### 🔹 Module 5 : Édition, Recherche & Découpage (Advanced)
+*Les fonctions de manipulation avancée de la mémoire.*
+
+- [ ] **str_substring** : Extrait de manière sécurisée une portion de la chaîne (génère une copie)
+- [ ] **str_repeat** : Répète une chaîne N fois
+- [ ] **str_replace** : Remplace toutes les occurrences d'un sous-mot par un autre (génère une copie)
+- [ ] **str_split** : Découpe une chaîne selon un délimiteur et renvoie un tableau de chaînes (char **)
+- [ ] **str_join** : Prend un tableau de chaînes (char **) et les fusionne en une seule chaîne
+
+### 🔹 Module 6 : Tests & Qualité (Engineering)
+- [x] Créer le fichier d'en-tête global `strutil.h`
+- [ ] Écrire la suite complète de tests unitaires avec `assert.h` dans `test_strutil.c`
+- [x] Écrire un `Makefile` pour automatiser la compilation du projet et des tests
 
 ## 🔧 Compilation
 
@@ -135,48 +172,188 @@ strutil/
 └── README.md              # Ce fichier
 ```
 
-## 🛠️ API Référence
+## 🛠️ API Référence Complète
 
-### Trimming
+### Module 1 : Trimming (Nettoyage & Espaces)
 
-#### `char* str_trim(const char* str)`
+#### `char* str_trim(const char* str)` ✅
 Supprime les espaces de début et de fin. Alloue une nouvelle chaîne.
+```c
+const char* input = "  hello world  ";
+char* result = str_trim(input);  // "hello world"
+free(result);
+```
 
-#### `char* str_trim_inplace(char* str)`
+#### `char* str_trim_inplace(char* str)` ✅
 Supprime les espaces de début et de fin. Modifie in-place.
+```c
+char buffer[50] = "  hello world  ";
+str_trim_inplace(buffer);  // "hello world"
+```
 
-#### `char* str_left_trim(const char* str)` / `str_left_trim_inplace(char* str)`
+#### `char* str_left_trim(const char* str)` / `str_left_trim_inplace(char* str)` ✅
 Supprime uniquement les espaces au début.
 
-#### `char* str_right_trim(const char* str)` / `str_right_trim_inplace(char* str)`
+#### `char* str_right_trim(const char* str)` / `str_right_trim_inplace(char* str)` ✅
 Supprime uniquement les espaces à la fin.
 
-### Padding
+---
 
-#### `char* str_pad_left(const char* str, size_t total_length, char pad_char)`
+### Module 2 : Padding (Alignement & Remplissage)
+
+#### `char* str_pad_left(const char* str, size_t total_length, char pad_char)` ✅
 Ajoute des caractères de remplissage à gauche jusqu'à `total_length`.
+```c
+char* result = str_pad_left("42", 5, '0');  // "00042"
+free(result);
+```
 
-#### `char* str_pad_right(const char* str, size_t total_length, char pad_char)`
+#### `char* str_pad_left_inplace(char* str, size_t total_length, char pad_char)` ✅
+Ajoute des caractères de remplissage à gauche in-place.
+
+#### `char* str_pad_right(const char* str, size_t total_length, char pad_char)` ✅
 Ajoute des caractères de remplissage à droite jusqu'à `total_length`.
+```c
+char* result = str_pad_right("42", 5, '.');  // "42..."
+free(result);
+```
 
-#### `char* str_pad(const char* str, size_t total_length, char pad_char, int pad_left)`
+#### `char* str_pad_right_inplace(char* str, size_t total_length, char pad_char)` ✅
+Ajoute des caractères de remplissage à droite in-place.
+
+#### `char* str_pad(const char* str, size_t total_length, char pad_char, int pad_left)` ✅
 Remplissage flexible : `pad_left` != 0 pour gauche, 0 pour droite.
+```c
+char* left = str_pad("X", 3, '*', 1);    // "**X"
+char* right = str_pad("X", 3, '*', 0);   // "X**"
+free(left);
+free(right);
+```
 
-### Casse
+#### `char* str_pad_inplace(char* str, size_t total_length, char pad_char, int pad_left)` ✅
+Remplissage flexible in-place.
 
-#### `char* str_toLower(const char* str)` / `str_toLower_inplace(char* str)`
-Convertit en minuscules.
+---
 
-#### `char* str_toUpper(const char* str)` / `str_toUpper_inplace(char* str)`
-Convertit en majuscules.
+### Module 3 : Casing (Casse & Transformation)
 
-#### `char* str_titleCase(const char* str)` / `str_titleCase_inplace(char* str)`
+#### `char* str_toLower(const char* str)` ✅
+Convertit en minuscules. Alloue une nouvelle chaîne.
+```c
+char* result = str_toLower("HELLO");  // "hello"
+free(result);
+```
+
+#### `char* str_toLower_inplace(char* str)` ✅
+Convertit en minuscules in-place.
+
+#### `char* str_toUpper(const char* str)` ✅
+Convertit en majuscules. Alloue une nouvelle chaîne.
+```c
+char* result = str_toUpper("hello");  // "HELLO"
+free(result);
+```
+
+#### `char* str_toUpper_inplace(char* str)` ✅
+Convertit en majuscules in-place.
+
+#### `char* str_titleCase(const char* str)` ✅
 Convertit en "Title Case" (première lettre de chaque mot en majuscule).
+```c
+char* result = str_titleCase("hello world");  // "Hello World"
+free(result);
+```
 
-### Autres
+#### `char* str_titleCase_inplace(char* str)` ✅
+Convertit en "Title Case" in-place.
 
-#### `char* str_reverse_inplace(char* str)`
+#### `char* str_reverse_inplace(char* str)` ✅
 Inverse une chaîne de caractères.
+```c
+char buffer[50] = "hello";
+str_reverse_inplace(buffer);  // "olleh"
+```
+
+---
+
+### Module 4 : Predicates (Analyse & Vérification) ⏳ À faire
+
+#### `int str_startsWith(const char* str, const char* prefix)` ⏳
+Vérifie si la chaîne commence par un préfixe donné.
+```c
+// À implémenter
+// int result = str_startsWith("hello world", "hello");  // 1 (true)
+```
+
+#### `int str_endsWith(const char* str, const char* suffix)` ⏳
+Vérifie si la chaîne se termine par un suffixe donné.
+
+#### `int str_contains(const char* str, const char* substring)` ⏳
+Vérifie si un mot ou sous-ensemble est présent dans la chaîne.
+
+#### `int str_isNumeric(const char* str)` ⏳
+Vérifie si la chaîne ne contient que des chiffres (0-9).
+
+#### `int str_isAlpha(const char* str)` ⏳
+Vérifie si la chaîne ne contient que des lettres de l'alphabet.
+
+#### `int str_isEmptyOrWhitespace(const char* str)` ⏳
+Vérifie si la chaîne est vide ou ne contient que des espaces.
+
+---
+
+### Module 5 : Advanced (Édition, Recherche & Découpage) ⏳ À faire
+
+#### `char* str_substring(const char* str, size_t start, size_t length)` ⏳
+Extrait de manière sécurisée une portion de la chaîne.
+```c
+// À implémenter
+// char* result = str_substring("hello world", 0, 5);  // "hello"
+// free(result);
+```
+
+#### `char* str_repeat(const char* str, size_t count)` ⏳
+Répète une chaîne N fois.
+```c
+// char* result = str_repeat("ab", 3);  // "ababab"
+// free(result);
+```
+
+#### `char* str_replace(const char* str, const char* find, const char* replace_with)` ⏳
+Remplace toutes les occurrences d'un sous-mot par un autre.
+```c
+// char* result = str_replace("hello world", "world", "there");  // "hello there"
+// free(result);
+```
+
+#### `char** str_split(const char* str, const char* delimiter, int* count)` ⏳
+Découpe une chaîne selon un délimiteur et renvoie un tableau de chaînes.
+```c
+// int count = 0;
+// char** parts = str_split("a,b,c", ",", &count);  // ["a", "b", "c"], count = 3
+// // Libérer la mémoire
+```
+
+#### `char* str_join(char** strings, int count, const char* separator)` ⏳
+Fusionne un tableau de chaînes en une seule chaîne.
+```c
+// char* arr[] = {"hello", "world"};
+// char* result = str_join(arr, 2, " ");  // "hello world"
+// free(result);
+```
+
+---
+
+## ✅ Statut d'implémentation
+
+| Module | Statut | Progression |
+|--------|--------|-------------|
+| 1. Trimming | ✅ Complet | 6/6 (100%) |
+| 2. Padding | ✅ Complet | 6/6 (100%) |
+| 3. Casing | ✅ Complet | 7/7 (100%) |
+| 4. Predicates | ⏳ En cours | 0/6 (0%) |
+| 5. Advanced | ⏳ En cours | 0/5 (0%) |
+| **Total** | **ℹ️ En développement** | **19/24 (79%)** |
 
 ## 📝 Gestion Mémoire
 
