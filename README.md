@@ -46,9 +46,9 @@ Conçue avec C11, cette bibliothèque met l'accent sur :
 ### 🔹 Module 4 : Analyse & Vérification (Predicates)
 *Ces fonctions analysent une chaîne et renvoient un booléen (1 pour vrai, 0 pour faux).*
 
-- [ ] **str_startsWith** : Vérifie si la chaîne commence par un préfixe donné
-- [ ] **str_endsWith** : Vérifie si la chaîne se termine par un suffixe donné
-- [ ] **str_contains** : Vérifie si un mot ou sous-ensemble est présent dans la chaîne
+- [x] **str_startsWith** : Vérifie si la chaîne commence par un préfixe donné
+- [x] **str_endsWith** : Vérifie si la chaîne se termine par un suffixe donné
+- [x] **str_contains** : Vérifie si un mot ou sous-ensemble est présent dans la chaîne
 - [ ] **str_isNumeric** : Vérifie si la chaîne ne contient que des chiffres (0-9)
 - [ ] **str_isAlpha** : Vérifie si la chaîne ne contient que des lettres de l'alphabet
 - [ ] **str_isEmptyOrWhitespace** : Vérifie si la chaîne est vide ou ne contient que des espaces
@@ -351,9 +351,9 @@ Fusionne un tableau de chaînes en une seule chaîne.
 | 1. Trimming | ✅ Complet | 6/6 (100%) |
 | 2. Padding | ✅ Complet | 6/6 (100%) |
 | 3. Casing | ✅ Complet | 7/7 (100%) |
-| 4. Predicates | ⏳ En cours | 0/6 (0%) |
+| 4. Predicates | ⏳ En cours | 3/6 (50%) |
 | 5. Advanced | ⏳ En cours | 0/5 (0%) |
-| **Total** | **ℹ️ En développement** | **19/24 (79%)** |
+| **Total** | **ℹ️ En développement** | **22/30 (73%)** |
 
 ## 📝 Gestion Mémoire
 

@@ -199,10 +199,10 @@ int str_startsWith(const char* str, const char* substr);
 int str_endsWith(const char* str, const char* substr);
 
 /**
- *
+ * @brief Cette fonction vérifie si la chaîne contient une sous-chaîne donnée.
  * @param str La chaîne de caractère source à vérifier.
- * @param substr Le mot ou sous-chaîne à véridier si présent dans la chaîne
- * @return Un entier (1) si le mot ou sous-chaîne n'est pas présent dans la chaîne, (0) dans le cas contraire ou si les chaîne et le préfixe sont NULL, ou si la taille du préfixe est supérieur à la taille de la chaîne.
+ * @param substr Le mot ou sous-chaîne à vérifier si présent dans la chaîne
+ * @return Un entier (1) si le mot ou sous-chaîne est présent dans la chaîne, (0) dans le cas contraire ou si les chaîne et le préfixe sont NULL, ou si la taille du préfixe est supérieur à la taille de la chaîne.
  */
 int str_contains(const char* str, const char* substr);
 #endif /* STRUTIL_H */

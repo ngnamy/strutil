@@ -19,4 +19,8 @@ void test_str_pad();
 void test_str_reverse(); // Nouveau test pour str_reverse
 void test_str_reverse_inplace(); // Ajouté pour la cohérence
 
+void test_str_startsWith();
+void test_str_endsWith();
+void test_str_contains();
+
 #endif //STRUTIL_TEST_STRUTIL_H

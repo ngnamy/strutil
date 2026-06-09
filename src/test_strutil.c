@@ -10,6 +10,7 @@
 #define TEST_END() printf("✅ PASSED\n")
 #define ASSERT_STR_EQ(expected, actual) assert(strcmp(expected, actual) == 0)
 #define ASSERT_NULL(ptr) assert(ptr == NULL)
+#define ASSERT_INT_EQ(expected, actual) assert((expected) == (actual))
 
 void test_str_trim() {
     TEST_START("str_trim");
@@ -254,6 +255,57 @@ void test_str_reverse_inplace() {
     TEST_END();
 }
 
+void test_str_startsWith() {
+    TEST_START("str_startsWith");
+
+    ASSERT_INT_EQ(1, str_startsWith("hello world", "hello"));
+    ASSERT_INT_EQ(1, str_startsWith("hello", "h"));
+    ASSERT_INT_EQ(1, str_startsWith("hello", "hello"));
+    ASSERT_INT_EQ(1, str_startsWith("hello", ""));
+    ASSERT_INT_EQ(1, str_startsWith("", ""));
+    
+    ASSERT_INT_EQ(0, str_startsWith("hello", "world"));
+    ASSERT_INT_EQ(0, str_startsWith("hello", "H")); // Sensible à la casse
+    ASSERT_INT_EQ(0, str_startsWith("h", "hello"));
+    ASSERT_INT_EQ(0, str_startsWith(NULL, "h"));
+    ASSERT_INT_EQ(0, str_startsWith("h", NULL));
+
+    TEST_END();
+}
+
+void test_str_endsWith() {
+    TEST_START("str_endsWith");
+
+    ASSERT_INT_EQ(1, str_endsWith("hello world", "world"));
+    ASSERT_INT_EQ(1, str_endsWith("hello", "o"));
+    ASSERT_INT_EQ(1, str_endsWith("hello", "hello"));
+    ASSERT_INT_EQ(1, str_endsWith("hello", ""));
+    ASSERT_INT_EQ(1, str_endsWith("", ""));
+
+    ASSERT_INT_EQ(0, str_endsWith("hello", "hello world"));
+    ASSERT_INT_EQ(0, str_endsWith("hello", "he"));
+    ASSERT_INT_EQ(0, str_endsWith(NULL, "o"));
+    ASSERT_INT_EQ(0, str_endsWith("o", NULL));
+
+    TEST_END();
+}
+
+void test_str_contains() {
+    TEST_START("str_contains");
+
+    ASSERT_INT_EQ(1, str_contains("hello world", "world"));
+    ASSERT_INT_EQ(1, str_contains("hello world", "hello"));
+    ASSERT_INT_EQ(1, str_contains("hello world", "lo w"));
+    ASSERT_INT_EQ(1, str_contains("hello", ""));
+
+    ASSERT_INT_EQ(0, str_contains("hello", "xyz"));
+    ASSERT_INT_EQ(0, str_contains("hello", "HELLO")); // Sensible à la casse
+    ASSERT_INT_EQ(0, str_contains(NULL, "a"));
+    ASSERT_INT_EQ(0, str_contains("a", NULL));
+
+    TEST_END();
+}
+
 int run_all_tests() {
     printf("--- ⚙️ RUNNING ALL TESTS ---\n");
     test_str_trim();
@@ -266,6 +318,9 @@ int run_all_tests() {
     test_str_pad();
     test_str_reverse();
     test_str_reverse_inplace();
+    test_str_startsWith();
+    test_str_endsWith();
+    test_str_contains();
     printf("--- ✅ ALL TESTS PASSED SUCCESSFULLY ---\n");
     return 0;
 }
