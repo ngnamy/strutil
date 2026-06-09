@@ -396,3 +396,40 @@ int str_contains(const char* str, const char* substr)
 
     return strstr(str, substr) != NULL;
 }
+
+int str_isNumeric(const char* str)
+{
+    if (str == NULL) return 0;
+
+    while (*str)
+    {
+        if (!isdigit((unsigned char)*str)) return 0;
+        str++;
+    }
+    return 1;
+
+}
+
+int str_isAlpha(const char* str)
+{
+    if (str == NULL) return 0;
+
+    while (*str)
+    {
+        if (!isalpha((unsigned char)*str)) return 0;
+        str++;
+    }
+    return 1;
+}
+
+int str_isEmptyOrWhitespace(const char* str) {
+    if (str == NULL) return 1;
+
+    while (*str) {
+        if (!isspace((unsigned char)*str)) {
+            return 0;
+        }
+        str++;
+    }
+    return 1;
+}

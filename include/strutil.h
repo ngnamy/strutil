@@ -205,4 +205,26 @@ int str_endsWith(const char* str, const char* substr);
  * @return Un entier (1) si le mot ou sous-chaîne est présent dans la chaîne, (0) dans le cas contraire ou si les chaîne et le préfixe sont NULL, ou si la taille du préfixe est supérieur à la taille de la chaîne.
  */
 int str_contains(const char* str, const char* substr);
+
+/**
+ * @brief Cette fonction vérifie si la chaîne est composée uniquement de caractères numériques.
+ * @param str La chaîne de caractère source à vérifier.
+ * @return Un entier (1) si la chaîne est composée uniquement de caractères numériques, (0) dans le cas contraire ou si la chaîne est NULL.
+ */
+int str_isNumeric(const char* str);
+
+/**
+ * @brief Cette fonction vérifie si la chaîne est composée uniquement de caractères alphabétiques.
+ * @param str La chaîne de caractère source à vérifier.
+ * @return Un entier (1) si la chaîne est composée uniquement de caractères alphabétiques, (0) dans le cas contraire ou si la chaîne est NULL.
+ */
+int str_isAlpha(const char* str);
+
+/**
+ * @brief Cette fonction vérifie si la chaîne est vide ou composée uniquement d'espaces blancs.
+ * @param str La chaîne de caractère source à vérifier.
+ * @return Un entier (1) si la chaîne est vide, NULL ou composée uniquement d'espaces blancs, (0) dans le cas contraire.
+ */
+int str_isEmptyOrWhitespace(const char* str);
+
 #endif /* STRUTIL_H */
