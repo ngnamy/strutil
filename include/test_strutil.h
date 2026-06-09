@@ -22,5 +22,8 @@ void test_str_reverse_inplace(); // Ajouté pour la cohérence
 void test_str_startsWith();
 void test_str_endsWith();
 void test_str_contains();
+void test_str_isNumeric();
+void test_str_isAlpha();
+void test_str_isEmptyOrWhitespace();
 
 #endif //STRUTIL_TEST_STRUTIL_H

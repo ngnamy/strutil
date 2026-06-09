@@ -49,9 +49,9 @@ Conçue avec C11, cette bibliothèque met l'accent sur :
 - [x] **str_startsWith** : Vérifie si la chaîne commence par un préfixe donné
 - [x] **str_endsWith** : Vérifie si la chaîne se termine par un suffixe donné
 - [x] **str_contains** : Vérifie si un mot ou sous-ensemble est présent dans la chaîne
-- [ ] **str_isNumeric** : Vérifie si la chaîne ne contient que des chiffres (0-9)
-- [ ] **str_isAlpha** : Vérifie si la chaîne ne contient que des lettres de l'alphabet
-- [ ] **str_isEmptyOrWhitespace** : Vérifie si la chaîne est vide ou ne contient que des espaces
+- [x] **str_isNumeric** : Vérifie si la chaîne ne contient que des chiffres (0-9)
+- [x] **str_isAlpha** : Vérifie si la chaîne ne contient que des lettres de l'alphabet
+- [x] **str_isEmptyOrWhitespace** : Vérifie si la chaîne est vide ou ne contient que des espaces
 
 ### 🔹 Module 5 : Édition, Recherche & Découpage (Advanced)
 *Les fonctions de manipulation avancée de la mémoire.*
@@ -351,9 +351,9 @@ Fusionne un tableau de chaînes en une seule chaîne.
 | 1. Trimming | ✅ Complet | 6/6 (100%) |
 | 2. Padding | ✅ Complet | 6/6 (100%) |
 | 3. Casing | ✅ Complet | 7/7 (100%) |
-| 4. Predicates | ⏳ En cours | 3/6 (50%) |
+| 4. Predicates | ✅ Complet | 6/6 (100%) |
 | 5. Advanced | ⏳ En cours | 0/5 (0%) |
-| **Total** | **ℹ️ En développement** | **22/30 (73%)** |
+| **Total** | **ℹ️ En développement** | **25/30 (83%)** |
 
 ## 📝 Gestion Mémoire
 

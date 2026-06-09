@@ -306,6 +306,36 @@ void test_str_contains() {
     TEST_END();
 }
 
+void test_str_isNumeric() {
+    TEST_START("str_isNumeric");
+    ASSERT_INT_EQ(1, str_isNumeric("1234567890"));
+    ASSERT_INT_EQ(1, str_isNumeric(""));
+    ASSERT_INT_EQ(0, str_isNumeric("123a45"));
+    ASSERT_INT_EQ(0, str_isNumeric(" "));
+    ASSERT_INT_EQ(0, str_isNumeric(NULL));
+    TEST_END();
+}
+
+void test_str_isAlpha() {
+    TEST_START("str_isAlpha");
+    ASSERT_INT_EQ(1, str_isAlpha("Alphabet"));
+    ASSERT_INT_EQ(1, str_isAlpha(""));
+    ASSERT_INT_EQ(0, str_isAlpha("Alpha1"));
+    ASSERT_INT_EQ(0, str_isAlpha("Alpha Beta"));
+    ASSERT_INT_EQ(0, str_isAlpha(NULL));
+    TEST_END();
+}
+
+void test_str_isEmptyOrWhitespace() {
+    TEST_START("str_isEmptyOrWhitespace");
+    ASSERT_INT_EQ(1, str_isEmptyOrWhitespace(""));
+    ASSERT_INT_EQ(1, str_isEmptyOrWhitespace("   "));
+    ASSERT_INT_EQ(1, str_isEmptyOrWhitespace("\n\t \r"));
+    ASSERT_INT_EQ(1, str_isEmptyOrWhitespace(NULL));
+    ASSERT_INT_EQ(0, str_isEmptyOrWhitespace("  content  "));
+    TEST_END();
+}
+
 int run_all_tests() {
     printf("--- ⚙️ RUNNING ALL TESTS ---\n");
     test_str_trim();
@@ -321,6 +351,9 @@ int run_all_tests() {
     test_str_startsWith();
     test_str_endsWith();
     test_str_contains();
+    test_str_isNumeric();
+    test_str_isAlpha();
+    test_str_isEmptyOrWhitespace();
     printf("--- ✅ ALL TESTS PASSED SUCCESSFULLY ---\n");
     return 0;
 }
