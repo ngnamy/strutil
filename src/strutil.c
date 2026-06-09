@@ -358,3 +358,69 @@ char* str_reverse(const char* str)
     new_str[str_len] = '\0';
     return new_str;
 }
+
+int str_startsWith(const char* str, const char* substr)
+{
+    if (str == NULL || substr == NULL) return 0;
+    size_t str_len = strlen(str);
+    size_t substr_len = strlen(substr);
+
+    if (substr_len >= str_len) return 0;
+    for (size_t i = 0; i < str_len; i++)
+    {
+        if (str[i] != substr[i]) return 0;
+    }
+    return 1;
+}
+
+int str_endsWith(const char* str, const char* substr)
+{
+    if (str == NULL || substr == NULL) return 0;
+    size_t str_len = strlen(str);
+    size_t substr_len = strlen(substr);
+
+    if (str_len <= substr_len) return 0;
+
+    size_t start_pos = str_len - substr_len;
+    for (size_t i = start_pos; i < str_len; i++)
+    {
+        if (str[i] != substr[i]) return 0;
+    }
+    return 1;
+}
+
+int str_contains(const char* str, const char* substr)
+{
+    if (str == NULL || substr == NULL) return 0;
+
+    size_t str_len = strlen(str);
+    size_t substr_len = strlen(substr);
+    if (substr_len > str_len) return 0;
+
+    // cas où la chaîne de caractère est égale au mot ou sous-chaine
+    if (substr_len == str_len)
+    {
+        for (size_t i = 0; i < str_len; i++)
+        {
+            if (str[i] != substr[i]) return 0;
+        }
+        return 1;
+    }
+
+    char* result = strchr(str, substr[0]);
+    // Cas où le mot n'est qu'un seul caractère
+    if (substr_len == 1)
+    {
+        if (result != NULL) return 1;
+        return 0;
+    }
+
+    size_t index = str - result;
+    for (size_t i = 0; i < substr_len; i++)
+    {
+        if (str[index] != substr[i]) return 0;
+        index++;
+    }
+    return 1;
+
+}

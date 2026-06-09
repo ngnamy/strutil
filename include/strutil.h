@@ -181,4 +181,28 @@ char* str_reverse_inplace(char* str);
  * @note L'utilisateur est responsable de libérer la mémoire avec free().
  */
 char* str_reverse(const char* str);
+
+/**
+ * @brief Cette fonction vérifie si la chaîne commence par un préfixe.
+ * @param str La chaîne de caractère source à vérifier.
+ * @param substr Le préfixe
+ * @return Un entier (1) si la chaine commence par un préfixe donné, (0) dans le cas contraire ou si les chaîne et le préfixe sont NULL, ou si la taille du préfixe est supérieur à la taille de la chaîne.
+ */
+int str_startsWith(const char* str, const char* substr);
+
+/**
+ * @brief Cette fonction vérifie si la chaîne se termine par un préfixe.
+ * @param str La chaîne de caractère source à vérifier.
+ * @param substr Le préfixe de fin de chaîne.
+ * @return Un entier (1) si la chaine se termine par un préfixe donné, (0) dans le cas contraire ou si les chaîne et le préfixe sont NULL, ou si la taille du préfixe est supérieur à la taille de la chaîne.
+ */
+int str_endsWith(const char* str, const char* substr);
+
+/**
+ *
+ * @param str La chaîne de caractère source à vérifier.
+ * @param substr Le mot ou sous-chaîne à véridier si présent dans la chaîne
+ * @return Un entier (1) si le mot ou sous-chaîne n'est pas présent dans la chaîne, (0) dans le cas contraire ou si les chaîne et le préfixe sont NULL, ou si la taille du préfixe est supérieur à la taille de la chaîne.
+ */
+int str_contains(const char* str, const char* substr);
 #endif /* STRUTIL_H */
