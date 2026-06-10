@@ -267,4 +267,77 @@ int str_isAlpha(const char* str);
  */
 int str_isEmptyOrWhitespace(const char* str);
 
+/**
+ * @brief Cette fonction extrait une sous-chaîne d'une chaîne donnée.
+ * @param str La chaîne de caractères source à traiter.
+ * @return Un pointeur vers la nouvelle chaîne allouée contenant la sous-chaîne extraite, ou NULL si l'allocation échoue.
+ * @note L'utilisateur est responsable de libérer de la mémoire avec free().
+ * @example
+ *   char* result = str_substring("hello world");  // "hello world" (extrait la chaîne entière dans cet exemple)
+ *   free(result);
+ *   char* result2 = str_substring("hello world", 0, 5);  // "hello" (extrait les 5 premiers caractères)
+ *   free(result2);
+ */
+char* str_substring(const char* str);
+
+/**
+ * @brief Cette fonction répète une chaîne de caractères un nombre spécifié de fois.
+ * @param str La chaîne de caractères source à répéter.
+ * @param count Le nombre de fois que la chaîne doit être répétée.
+ * @return Un pointeur vers la nouvelle chaîne allouée contenant la chaîne répétée, ou NULL si l'allocation échoue.
+ * @note L'utilisateur est responsable de libérer de la mémoire avec free().
+ * @example
+ *   char* result = str_repeat("abc", 3);  // "abcabcabc"
+ *   free(result);
+ *   char* result2 = str_repeat("xyz", 0);  // "" (chaîne vide)
+ *   free(result2);
+ */
+char* str_repeat(const char* str, size_t count);
+
+/**
+ * @brief Cette fonction remplace toutes les occurrences d'une sous-chaîne par une autre dans une chaîne donnée.
+ * @param str La chaîne de caractères source à traiter.
+ * @param target La sous-chaîne à remplacer.
+ * @replacement La sous-chaîne de remplacement.
+ * @return Un pointeur vers la nouvelle chaîne allouée contenant le résultat du remplacement, ou NULL si l'allocation échoue.
+ * @note L'utilisateur est responsable de libérer de la mémoire avec free().
+ * @example
+ *   char* result = str_replace("hello world", "world", "there");  // "hello there"
+ *   free(result);
+ *   char* result2 = str_replace("abcabc", "abc", "x");  // "xx"
+ *   free(result2);
+ */
+char* str_replace(const char* str, const char* target, const char* replacement);
+
+/**
+ * @brief Cette fonction divise une chaîne de caractères en un tableau de sous-chaînes en utilisant un délimiteur spécifié.
+ * @param str La chaîne de caractères source à diviser.
+ * @param delimiter Le caractère utilisé comme délimiteur pour diviser la chaîne.
+ * @param out_count Un pointeur vers une variable de type size_t où sera stocké le nombre de sous-chaînes résultantes.
+ * @return Un pointeur vers un tableau de chaînes allouées, ou NULL si l'allocation échoue. Le nombre de sous-chaînes est stocké dans out_count.
+ * @note L'utilisateur est responsable de libérer la mémoire allouée pour le tableau et les chaînes individuelles avec free().
+ * @example
+ *   char* str = "apple,banana,cherry";
+ *   size_t count;
+ *   char** result = str_split(str, ',', &count);  // result[0] = "apple", result[1] = "banana", result[2] = "cherry", count = 3
+ *   
+ */
+char** str_split(const char* str, char delimiter, size_t* out_count);
+
+/**
+ * @brief Cette fonction joint un tableau de chaînes de caractères en une seule chaîne en utilisant un séparateur spécifié.
+ * @param strings Un tableau de chaînes de caractères à joindre.
+ * @param count Le nombre de chaînes dans le tableau.
+ * @param separator Le séparateur à insérer entre les chaînes lors de la jonction.
+ * @return Un pointeur vers la nouvelle chaîne allouée résultant de la jonction, ou NULL si l'allocation échoue.
+ * @note L'utilisateur est responsable de libérer la mémoire allouée avec free().
+ * @example
+ *   char* strings[] = {"apple", "banana", "cherry"};
+ *   char* result = str_join(strings, 3, ", ");  // "apple, banana, cherry"
+ *   free(result);
+ *   char* string2[] = {"hello", NULL, "world"};
+ *   char* result2 = str_join(string2, 1, ", ");  // "hello"
+ *   free(result2);
+ */
+char** str_join(const char** strings, size_t count, const char* separator);
 #endif /* STRUTIL_H */
