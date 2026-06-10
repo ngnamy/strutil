@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 #include "../include/strutil.h"
 
@@ -329,6 +330,20 @@ char* str_titleCase(const char* str) {
     return new_str;
 }
 
+char* str_reverse(const char* str) {
+    if (str == NULL) return NULL;
+    
+    size_t len = strlen(str);
+    char* new_str = malloc(len + 1);
+    if (new_str == NULL) return NULL;
+    
+    for (size_t i = 0; i < len; i++) {
+        new_str[i] = str[len - 1 - i];
+    }
+    new_str[len] = '\0';
+    return new_str;
+}
+
 char* str_reverse_inplace(char* str)
 {
     if (str == NULL) return NULL;
@@ -342,94 +357,63 @@ char* str_reverse_inplace(char* str)
     return str;
 }
 
-char* str_reverse(const char* str)
-{
-    if (str == NULL) return NULL;
-
+int str_startsWith(const char* str, const char* prefix) {
+    if (str == NULL || prefix == NULL) return 0;
+    
     size_t str_len = strlen(str);
-    char* new_str = malloc(str_len + 1);
-    if (new_str == NULL) return NULL;
-
-    const char* src = str + str_len - 1;
-    for (size_t i = 0; i < str_len; i++)
-    {
-        new_str[i] = *src--;
-    }
-    new_str[str_len] = '\0';
-    return new_str;
+    size_t prefix_len = strlen(prefix);
+    
+    if (prefix_len > str_len) return 0;
+    
+    return strncmp(str, prefix, prefix_len) == 0 ? 1 : 0;
 }
 
-int str_startsWith(const char* str, const char* substr)
-{
-    if (str == NULL || substr == NULL) return 0;
+int str_endsWith(const char* str, const char* suffix) {
+    if (str == NULL || suffix == NULL) return 0;
+    
     size_t str_len = strlen(str);
-    size_t substr_len = strlen(substr);
-
-    if (substr_len > str_len) return 0;
-    if (substr_len == 0) return 1;
-
-    if (memcmp(str, substr, substr_len) != 0) return 0;
-    return 1;
+    size_t suffix_len = strlen(suffix);
+    
+    if (suffix_len > str_len) return 0;
+    
+    return strncmp(str + str_len - suffix_len, suffix, suffix_len) == 0 ? 1 : 0;
 }
 
-int str_endsWith(const char* str, const char* substr)
-{
-    if (str == NULL || substr == NULL) return 0;
-    size_t str_len = strlen(str);
-    size_t substr_len = strlen(substr);
-
-    if (substr_len > str_len) return 0;
-    if (substr_len == 0) return 1;
-
-    return memcmp(str + (str_len - substr_len), substr, substr_len) == 0;
+int str_contains(const char* str, const char* substring) {
+    if (str == NULL || substring == NULL) return 0;
+    
+    return strstr(str, substring) != NULL ? 1 : 0;
 }
 
-int str_contains(const char* str, const char* substr)
-{
-    if (str == NULL || substr == NULL) return 0;
-
-    size_t str_len = strlen(str);
-    size_t substr_len = strlen(substr);
-
-    if (substr_len == 0) return 1;
-    if (substr_len > str_len) return 0;
-
-    return strstr(str, substr) != NULL;
-}
-
-int str_isNumeric(const char* str)
-{
-    if (str == NULL) return 0;
-
-    while (*str)
-    {
-        if (!isdigit((unsigned char)*str)) return 0;
-        str++;
+int str_isNumeric(const char* str) {
+    if (str == NULL || *str == '\0') return 0;
+    
+    for (const char* p = str; *p; p++) {
+        if (!isdigit((unsigned char)*p)) {
+            return 0;
+        }
     }
     return 1;
-
 }
 
-int str_isAlpha(const char* str)
-{
-    if (str == NULL) return 0;
-
-    while (*str)
-    {
-        if (!isalpha((unsigned char)*str)) return 0;
-        str++;
+int str_isAlpha(const char* str) {
+    if (str == NULL || *str == '\0') return 0;
+    
+    for (const char* p = str; *p; p++) {
+        if (!isalpha((unsigned char)*p)) {
+            return 0;
+        }
     }
     return 1;
 }
 
 int str_isEmptyOrWhitespace(const char* str) {
-    if (str == NULL) return 1;
-
-    while (*str) {
-        if (!isspace((unsigned char)*str)) {
+    if (str == NULL || *str == '\0') return 1;
+    
+    for (const char* p = str; *p; p++) {
+        if (!isspace((unsigned char)*p)) {
             return 0;
         }
-        str++;
     }
     return 1;
 }

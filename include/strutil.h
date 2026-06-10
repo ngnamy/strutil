@@ -78,7 +78,13 @@ char* str_pad_left(const char* str, size_t total_length, char pad_char);
  * @param total_length La longueur totale souhaitée pour la chaîne après ajout du remplissage (y compris les caractères de remplissage).
  * @param pad_char Le caractère à utiliser pour le remplissage.
  * @return Un pointeur vers la chaîne modifiée, ou NULL si total_length est inférieur à la longueur de str.
- * @note La chaîne d'origine doit être suffisamment grande pour contenir la nouvelle chaîne après ajout du remplissage. L'utilisateur doit s'assurer que la mémoire est gérée correctement pour éviter les dépassements de tampon.
+ * @warning IMPORTANT : L'utilisateur DOIT garantir que le buffer pointé par str a une capacité >= total_length + 1 octets.
+ *          En cas de buffer insuffisant, comportement indéfini (débordement de mémoire).
+ * @note La chaîne d'origine doit être suffisamment grande pour contenir la nouvelle chaîne après ajout du remplissage.
+ * @example
+ *   char buffer[11] = "test";  // Capacité = 11 octets
+ *   str_pad_left_inplace(buffer, 10, '*');  // OK: buffer est assez grand
+ *   // buffer devient "******test"
  */
 char* str_pad_left_inplace(char* str, size_t total_length, char pad_char);
 
@@ -96,8 +102,11 @@ char* str_pad_right(const char* str, size_t total_length, char pad_char);
 /**
  * @brief Cette fonction ajoute des caractères de remplissage à droite d'une chaîne donnée en place.
  * @param str La chaîne de caractères à modifier. Doit être suffisamment grande pour contenir la nouvelle chaîne.
- * @param pad_char Le caractère à utiliser pour le remplissage.
  * @param total_length La longueur totale souhaitée pour la chaîne après ajout du remplissage (y compris les caractères de remplissage).
+ * @param pad_char Le caractère à utiliser pour le remplissage.
+ * @return Un pointeur vers la chaîne modifiée, ou NULL si total_length est inférieur à la longueur de str.
+ * @warning IMPORTANT : L'utilisateur DOIT garantir que le buffer pointé par str a une capacité >= total_length + 1 octets.
+ * @note Les paramètres sont dans l'ordre : str, total_length, pad_char
  */
 char* str_pad_right_inplace(char* str, size_t total_length, char pad_char);
 
@@ -115,10 +124,12 @@ char* str_pad(const char* str, size_t total_length, char pad_char, int pad_left)
 /**
  * @brief Cette fonction ajoute des caractères de remplissage à gauche ou à droite d'une chaîne donnée en place.
  * @param str La chaîne de caractères à modifier. Doit être suffisamment grande pour contenir la nouvelle chaîne.
- * @param pad_left Un entier indiquant si le remplissage doit être ajouté à gauche (non zéro) ou à droite (zéro).
  * @param total_length La longueur totale souhaitée pour la chaîne après ajout du remplissage (y compris les caractères de remplissage).
  * @param pad_char Le caractère à utiliser pour le remplissage.
- * @return Un pointeur vers la chaîne modifiée, ou NULL si l'allocation échoue ou si total_length est inférieur à la longueur de str
+ * @param pad_left Un entier indiquant si le remplissage doit être ajouté à gauche (non zéro) ou à droite (zéro).
+ * @return Un pointeur vers la chaîne modifiée, ou NULL si total_length est inférieur à la longueur de str
+ * @warning IMPORTANT : L'utilisateur DOIT garantir que le buffer pointé par str a une capacité >= total_length + 1 octets.
+ * @note Paramètres dans l'ordre : str, total_length, pad_char, pad_left
  */
 char* str_pad_inplace(char* str, size_t total_length, char pad_char, int pad_left);
 
@@ -132,8 +143,9 @@ char* str_toLower(const char* str);
 
 /**
  * @brief Cette fonction convertit une chaîne de caractères en minuscules en place.
- * @param str La chaîne de caractères à modifier. Doit être suffisamment grande pour contenir la nouvelle chaîne.
- * @return Un pointeur vers la chaîne modifiée, ou NULL si l'allocation éch
+ * @param str La chaîne de caractères à modifier.
+ * @return Un pointeur vers la chaîne modifiée, ou NULL si allocation échoue.
+ * @note Pas d'allocation de mémoire supplémentaire - modifie la chaîne sur place.
  */
 char* str_toLower_inplace(char* str);
 
@@ -168,62 +180,90 @@ char* str_titleCase(const char* str);
 char* str_titleCase_inplace(char* str);
 
 /**
- * @brief Cette fonction inverse une chaîne de caractères.
- * @param str La chaîne de caractères source à traiter.
- * @return Un pointeur vers la nouvelle chaîne.
- */
-char* str_reverse_inplace(char* str);
-
-/**
- * @brief Cette fonction
- * @param str La chaîne de caractère source à traiter.
- * @return Un pointeur vers la nouvelle chaîne allouée, ou NULL si l'allocation échoue.
+ * @brief Cette fonction inverse une chaîne de caractères (génère une copie).
+ * @param str La chaîne de caractères source à inverser.
+ * @return Un pointeur vers la nouvelle chaîne allouée inversée, ou NULL si allocation échoue.
  * @note L'utilisateur est responsable de libérer la mémoire avec free().
+ * @example
+ *   char* result = str_reverse("hello");  // "olleh"
+ *   free(result);
  */
 char* str_reverse(const char* str);
 
 /**
+ * @brief Cette fonction inverse une chaîne de caractères en place.
+ * @param str La chaîne de caractères à inverser.
+ * @return Un pointeur vers la chaîne modifiée, ou NULL en cas d'erreur.
+ */
+char* str_reverse_inplace(char* str);
+
+/**
  * @brief Cette fonction vérifie si la chaîne commence par un préfixe.
  * @param str La chaîne de caractère source à vérifier.
- * @param substr Le préfixe
- * @return Un entier (1) si la chaine commence par un préfixe donné, (0) dans le cas contraire ou si les chaîne et le préfixe sont NULL, ou si la taille du préfixe est supérieur à la taille de la chaîne.
+ * @param prefix Le préfixe à rechercher au début de la chaîne.
+ * @return 1 (vrai) si la chaîne commence par le préfixe, 0 (faux) sinon.
+ * @note Retourne 0 si str ou prefix est NULL.
+ * @example
+ *   str_startsWith("hello world", "hello");  // Retourne 1
+ *   str_startsWith("hello world", "world");  // Retourne 0
  */
-int str_startsWith(const char* str, const char* substr);
+int str_startsWith(const char* str, const char* prefix);
 
 /**
- * @brief Cette fonction vérifie si la chaîne se termine par un préfixe.
+ * @brief Cette fonction vérifie si la chaîne se termine par un suffixe.
  * @param str La chaîne de caractère source à vérifier.
- * @param substr Le préfixe de fin de chaîne.
- * @return Un entier (1) si la chaine se termine par un préfixe donné, (0) dans le cas contraire ou si les chaîne et le préfixe sont NULL, ou si la taille du préfixe est supérieur à la taille de la chaîne.
+ * @param suffix Le suffixe à rechercher à la fin de la chaîne.
+ * @return 1 (vrai) si la chaîne se termine par le suffixe, 0 (faux) sinon.
+ * @note Retourne 0 si str ou suffix est NULL.
+ * @example
+ *   str_endsWith("hello world", "world");  // Retourne 1
+ *   str_endsWith("hello world", "hello");  // Retourne 0
  */
-int str_endsWith(const char* str, const char* substr);
+int str_endsWith(const char* str, const char* suffix);
 
 /**
- * @brief Cette fonction vérifie si la chaîne contient une sous-chaîne donnée.
+ * @brief Cette fonction vérifie si une sous-chaîne est présente dans la chaîne.
  * @param str La chaîne de caractère source à vérifier.
- * @param substr Le mot ou sous-chaîne à vérifier si présent dans la chaîne
- * @return Un entier (1) si le mot ou sous-chaîne est présent dans la chaîne, (0) dans le cas contraire ou si les chaîne et le préfixe sont NULL, ou si la taille du préfixe est supérieur à la taille de la chaîne.
+ * @param substring La sous-chaîne à rechercher.
+ * @return 1 (vrai) si la sous-chaîne est présente, 0 (faux) sinon.
+ * @note Retourne 0 si str ou substring est NULL.
+ * @example
+ *   str_contains("hello world", "world");  // Retourne 1
+ *   str_contains("hello world", "xyz");    // Retourne 0
  */
-int str_contains(const char* str, const char* substr);
+int str_contains(const char* str, const char* substring);
 
 /**
- * @brief Cette fonction vérifie si la chaîne est composée uniquement de caractères numériques.
- * @param str La chaîne de caractère source à vérifier.
- * @return Un entier (1) si la chaîne est composée uniquement de caractères numériques, (0) dans le cas contraire ou si la chaîne est NULL.
+ * @brief Cette fonction vérifie si la chaîne contient uniquement des chiffres (0-9).
+ * @param str La chaîne de caractères à vérifier.
+ * @return 1 (vrai) si la chaîne ne contient que des chiffres, 0 (faux) sinon.
+ * @note Retourne 0 si str est NULL ou vide.
+ * @example
+ *   str_isNumeric("12345");   // Retourne 1
+ *   str_isNumeric("123abc");  // Retourne 0
  */
 int str_isNumeric(const char* str);
 
 /**
- * @brief Cette fonction vérifie si la chaîne est composée uniquement de caractères alphabétiques.
- * @param str La chaîne de caractère source à vérifier.
- * @return Un entier (1) si la chaîne est composée uniquement de caractères alphabétiques, (0) dans le cas contraire ou si la chaîne est NULL.
+ * @brief Cette fonction vérifie si la chaîne contient uniquement des lettres de l'alphabet.
+ * @param str La chaîne de caractères à vérifier.
+ * @return 1 (vrai) si la chaîne ne contient que des lettres, 0 (faux) sinon.
+ * @note Retourne 0 si str est NULL ou vide.
+ * @example
+ *   str_isAlpha("hello");      // Retourne 1
+ *   str_isAlpha("hello123");   // Retourne 0
  */
 int str_isAlpha(const char* str);
 
 /**
- * @brief Cette fonction vérifie si la chaîne est vide ou composée uniquement d'espaces blancs.
- * @param str La chaîne de caractère source à vérifier.
- * @return Un entier (1) si la chaîne est vide, NULL ou composée uniquement d'espaces blancs, (0) dans le cas contraire.
+ * @brief Cette fonction vérifie si la chaîne est vide ou ne contient que des espaces blancs.
+ * @param str La chaîne de caractères à vérifier.
+ * @return 1 (vrai) si la chaîne est vide ou contient uniquement des espaces, 0 (faux) sinon.
+ * @note Retourne 1 si str est NULL.
+ * @example
+ *   str_isEmptyOrWhitespace("");       // Retourne 1
+ *   str_isEmptyOrWhitespace("   ");    // Retourne 1
+ *   str_isEmptyOrWhitespace("hello");  // Retourne 0
  */
 int str_isEmptyOrWhitespace(const char* str);
 

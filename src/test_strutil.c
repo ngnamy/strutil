@@ -309,7 +309,7 @@ void test_str_contains() {
 void test_str_isNumeric() {
     TEST_START("str_isNumeric");
     ASSERT_INT_EQ(1, str_isNumeric("1234567890"));
-    ASSERT_INT_EQ(1, str_isNumeric(""));
+    ASSERT_INT_EQ(0, str_isNumeric(""));
     ASSERT_INT_EQ(0, str_isNumeric("123a45"));
     ASSERT_INT_EQ(0, str_isNumeric(" "));
     ASSERT_INT_EQ(0, str_isNumeric(NULL));
@@ -319,7 +319,7 @@ void test_str_isNumeric() {
 void test_str_isAlpha() {
     TEST_START("str_isAlpha");
     ASSERT_INT_EQ(1, str_isAlpha("Alphabet"));
-    ASSERT_INT_EQ(1, str_isAlpha(""));
+    ASSERT_INT_EQ(0, str_isAlpha(""));
     ASSERT_INT_EQ(0, str_isAlpha("Alpha1"));
     ASSERT_INT_EQ(0, str_isAlpha("Alpha Beta"));
     ASSERT_INT_EQ(0, str_isAlpha(NULL));
