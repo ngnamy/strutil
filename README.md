@@ -268,37 +268,73 @@ free(result);
 Convertit en "Title Case" in-place.
 
 #### `char* str_reverse_inplace(char* str)` ✅
-Inverse une chaîne de caractères.
+Inverse une chaîne de caractères in-place.
 ```c
 char buffer[50] = "hello";
 str_reverse_inplace(buffer);  // "olleh"
 ```
 
----
-
-### Module 4 : Predicates (Analyse & Vérification) ⏳ À faire
-
-#### `int str_startsWith(const char* str, const char* prefix)` ⏳
-Vérifie si la chaîne commence par un préfixe donné.
+#### `char* str_reverse(const char* str)` ✅
+Inverse une chaîne de caractères. Alloue une nouvelle chaîne.
 ```c
-// À implémenter
-// int result = str_startsWith("hello world", "hello");  // 1 (true)
+char* result = str_reverse("hello");  // "olleh"
+char* result2 = str_reverse("world"); // "dlrow"
+free(result);
+free(result2);
 ```
 
-#### `int str_endsWith(const char* str, const char* suffix)` ⏳
+---
+
+### Module 4 : Predicates (Analyse & Vérification) ✅ Complet
+
+#### `int str_startsWith(const char* str, const char* prefix)` ✅
+Vérifie si la chaîne commence par un préfixe donné.
+```c
+int result = str_startsWith("hello world", "hello");  // 1 (true)
+int result2 = str_startsWith("hello world", "world"); // 0 (false)
+int result3 = str_startsWith(NULL, "test");           // 0 (false)
+```
+
+#### `int str_endsWith(const char* str, const char* suffix)` ✅
 Vérifie si la chaîne se termine par un suffixe donné.
+```c
+int result = str_endsWith("hello world", "world");  // 1 (true)
+int result2 = str_endsWith("hello world", "hello"); // 0 (false)
+int result3 = str_endsWith("test.txt", ".txt");     // 1 (true)
+```
 
-#### `int str_contains(const char* str, const char* substring)` ⏳
+#### `int str_contains(const char* str, const char* substring)` ✅
 Vérifie si un mot ou sous-ensemble est présent dans la chaîne.
+```c
+int result = str_contains("hello world", "world");  // 1 (true)
+int result2 = str_contains("hello world", "ll");    // 1 (true)
+int result3 = str_contains("hello world", "xyz");   // 0 (false)
+```
 
-#### `int str_isNumeric(const char* str)` ⏳
+#### `int str_isNumeric(const char* str)` ✅
 Vérifie si la chaîne ne contient que des chiffres (0-9).
+```c
+int result = str_isNumeric("12345");    // 1 (true)
+int result2 = str_isNumeric("123abc");  // 0 (false)
+int result3 = str_isNumeric("3.14");    // 0 (false - contient un point)
+```
 
-#### `int str_isAlpha(const char* str)` ⏳
+#### `int str_isAlpha(const char* str)` ✅
 Vérifie si la chaîne ne contient que des lettres de l'alphabet.
+```c
+int result = str_isAlpha("hello");       // 1 (true)
+int result2 = str_isAlpha("hello123");   // 0 (false)
+int result3 = str_isAlpha("Hello");      // 1 (true - majuscules/minuscules OK)
+```
 
-#### `int str_isEmptyOrWhitespace(const char* str)` ⏳
+#### `int str_isEmptyOrWhitespace(const char* str)` ✅
 Vérifie si la chaîne est vide ou ne contient que des espaces.
+```c
+int result = str_isEmptyOrWhitespace("");       // 1 (true - vide)
+int result2 = str_isEmptyOrWhitespace("   ");   // 1 (true - espaces)
+int result3 = str_isEmptyOrWhitespace("hello"); // 0 (false - contient du texte)
+int result4 = str_isEmptyOrWhitespace(NULL);    // 1 (true - NULL)
+```
 
 ---
 
@@ -350,10 +386,10 @@ Fusionne un tableau de chaînes en une seule chaîne.
 |--------|--------|-------------|
 | 1. Trimming | ✅ Complet | 6/6 (100%) |
 | 2. Padding | ✅ Complet | 6/6 (100%) |
-| 3. Casing | ✅ Complet | 7/7 (100%) |
+| 3. Casing | ✅ Complet | 8/8 (100%) |
 | 4. Predicates | ✅ Complet | 6/6 (100%) |
 | 5. Advanced | ⏳ En cours | 0/5 (0%) |
-| **Total** | **ℹ️ En développement** | **25/30 (83%)** |
+| **Total** | **ℹ️ En développement** | **26/30 (87%)** |
 
 ## 📝 Gestion Mémoire
 
