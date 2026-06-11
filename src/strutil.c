@@ -1,6 +1,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #include "../include/strutil.h"
 
@@ -23,7 +24,7 @@ char* str_trim(const char* str) {
         end--;
     }
 
-    size_t len = end - start + 1;
+    size_t len = (size_t)(end - start + 1);
 
     char* new_str = malloc(len + 1);
     if (new_str == NULL) return NULL;
@@ -52,7 +53,7 @@ char* str_trim_inplace(char* str) {
         end--;
     }
 
-    size_t len = end - start + 1;
+    size_t len = (size_t)(end - start + 1);
 
     if (start != str) {
         memmove(str, start, len);
@@ -109,7 +110,7 @@ char* str_right_trim(const char* str) {
         p_end--;
     }
 
-    size_t final_len = (p_end < str) ? 0 : (p_end - str + 1);
+    size_t final_len = (p_end < str) ? 0 : (size_t)(p_end - str + 1);
 
     char* new_str = malloc(final_len + 1);
     if (new_str == NULL) return NULL;
@@ -134,62 +135,8 @@ char* str_right_trim_inplace(char* str) {
         p_end--;
     }
 
-    size_t final_len = (p_end < str) ? 0 : (p_end - str + 1);
+    size_t final_len = (p_end < str) ? 0 : (size_t)(p_end - str + 1);
     str[final_len] = '\0';
-    return str;
-}
-
-char* str_pad_left(const char* str, size_t total_length, char pad_char) {
-    if (str == NULL) return NULL;
-
-    size_t str_len = strlen(str);
-    if (total_length <= str_len) return NULL;
-
-    char* new_str = malloc(total_length + 1);
-    if (new_str == NULL) return NULL;
-
-    size_t pad_count = total_length - str_len;
-
-    memset(new_str, pad_char, pad_count);
-    memcpy(new_str + pad_count, str, str_len + 1);
-    return new_str;
-}
-
-char* str_pad_left_inplace(char* str, size_t total_length, char pad_char) {
-    if (str == NULL) return NULL;
-
-    size_t str_len = strlen(str);
-    if (str_len >= total_length) return NULL;
-
-    size_t pad_count = total_length - str_len;
-    memmove(str + pad_count, str, str_len + 1);
-    memset(str, pad_char, pad_count);
-    return str;
-}
-
-char* str_pad_right(const char* str, size_t total_length, char pad_char) {
-    if (str == NULL) return NULL;
-
-    size_t str_len = strlen(str);
-    if (total_length <= str_len) return NULL;
-
-    char* new_str = malloc(total_length + 1);
-    if (new_str == NULL) return NULL;
-
-    memcpy(new_str, str, str_len);
-    memset(new_str + str_len, pad_char, total_length - str_len);
-    new_str[total_length] = '\0';
-    return new_str;
-}
-
-char* str_pad_right_inplace(char* str, size_t total_length, char pad_char) {
-    if (str == NULL) return NULL;
-
-    size_t str_len = strlen(str);
-    if (str_len >= total_length) return NULL;
-
-    memset(str + str_len, pad_char, total_length - str_len);
-    str[total_length] = '\0';
     return str;
 }
 
@@ -233,6 +180,22 @@ char* str_pad_inplace(char* str, size_t total_length, char pad_char, int pad_lef
     return str;
 }
 
+char* str_pad_left(const char* str, size_t total_length, char pad_char) {
+    return str_pad(str, total_length, pad_char, 1);
+}
+
+char* str_pad_left_inplace(char* str, size_t total_length, char pad_char) {
+    return str_pad_inplace(str, total_length, pad_char, 1);
+}
+
+char* str_pad_right(const char* str, size_t total_length, char pad_char) {
+    return str_pad(str, total_length, pad_char, 0);
+}
+
+char* str_pad_right_inplace(char* str, size_t total_length, char pad_char) {
+    return str_pad_inplace(str, total_length, pad_char, 0);
+}
+
 char* str_toLower(const char* str) {
     if (str == NULL) return NULL;
 
@@ -246,27 +209,6 @@ char* str_toLower(const char* str) {
     new_str[len] = '\0';
 
     return new_str;
-}
-
-char* str_titleCase_inplace(char* str) {
-    if (str == NULL) return NULL;
-
-    int new_word = 1;
-    for (char* p = str; *p; p++) {
-        unsigned char c = (unsigned char)*p;
-        if (isspace(c)) {
-            new_word = 1;
-        } else {
-            if (new_word) {
-                *p = (char)toupper(c);
-                new_word = 0;
-            } else {
-                *p = (char)tolower(c);
-            }
-        }
-    }
-
-    return str;
 }
 
 char* str_toLower_inplace(char* str) {
@@ -327,6 +269,27 @@ char* str_titleCase(const char* str) {
     new_str[len] = '\0';
 
     return new_str;
+}
+
+char* str_titleCase_inplace(char* str) {
+    if (str == NULL) return NULL;
+
+    int new_word = 1;
+    for (char* p = str; *p; p++) {
+        unsigned char c = (unsigned char)*p;
+        if (isspace(c)) {
+            new_word = 1;
+        } else {
+            if (new_word) {
+                *p = (char)toupper(c);
+                new_word = 0;
+            } else {
+                *p = (char)tolower(c);
+            }
+        }
+    }
+
+    return str;
 }
 
 char* str_reverse(const char* str) {
@@ -439,6 +402,169 @@ char* str_substring(const char* str, size_t start, size_t end) {
 
     memcpy(new_str, str + start, sub_len);
     new_str[sub_len] = '\0';
+
+    return new_str;
+}
+
+char* str_repeat(const char* str, size_t count) {
+    if (str == NULL) return NULL;
+
+    size_t str_len = strlen(str);
+    if (count > 0 && str_len > SIZE_MAX / count) return NULL;
+    size_t total_len = str_len * count;
+
+    char* new_str = malloc(total_len + 1);
+    if (new_str == NULL) return NULL;
+
+    char* p = new_str;
+    for (size_t i = 0; i < count; i++) {
+        memcpy(p, str, str_len);
+        p += str_len;
+    }
+    *p = '\0';
+
+    return new_str;
+}
+
+char* str_replace(const char* str, const char* target, const char* replacement) {
+    if (str == NULL || target == NULL || replacement == NULL) return NULL;
+
+    size_t str_len = strlen(str);
+    size_t target_len = strlen(target);
+    size_t replacement_len = strlen(replacement);
+
+    if (target_len == 0) {
+        char* new_str = malloc(str_len + 1);
+        if (new_str == NULL) return NULL;
+        memcpy(new_str, str, str_len + 1);
+        return new_str;
+    }
+
+    // Compter les occurrences de target
+    size_t count = 0;
+    const char* p = str;
+    while ((p = strstr(p, target)) != NULL) {
+        count++;
+        p += target_len;
+    }
+
+    size_t new_len;
+    if (replacement_len >= target_len) {
+        size_t growth = replacement_len - target_len;
+        if (growth > 0 && count > (SIZE_MAX - str_len) / growth) return NULL;
+        new_len = str_len + count * growth;
+    } else {
+        size_t shrink = target_len - replacement_len;
+        new_len = str_len - count * shrink;
+    }
+    char* new_str = malloc(new_len + 1);
+    if (new_str == NULL) return NULL;
+
+    char* dest = new_str;
+    const char* src = str;
+    while ((p = strstr(src, target)) != NULL) {
+        size_t bytes_to_copy = (size_t)(p - src);
+        memcpy(dest, src, bytes_to_copy);
+        dest += bytes_to_copy;
+
+        memcpy(dest, replacement, replacement_len);
+        dest += replacement_len;
+
+        src = p + target_len;
+    }
+    // Copier le reste de la chaîne
+    strcpy(dest, src);
+
+    return new_str;
+}
+
+char** str_split(const char* str, char delimiter, size_t* out_count) {
+    if (str == NULL || out_count == NULL) return NULL;
+
+    size_t count = 0;
+    const char* p = str;
+    while (*p) {
+        if (*p == delimiter) {
+            count++;
+        }
+        p++;
+    }
+    count++; // Pour le dernier segment
+
+    char** result = malloc(count * sizeof(char*));
+    if (result == NULL) return NULL;
+
+    size_t index = 0;
+    const char* start = str;
+    p = str;
+    while (*p) {
+        if (*p == delimiter) {
+            size_t len = (size_t)(p - start);
+            result[index] = malloc(len + 1);
+            if (result[index] == NULL) {
+                for (size_t i = 0; i < index; i++) {
+                    free(result[i]);
+                }
+                free(result);
+                return NULL;
+            }
+            memcpy(result[index], start, len);
+            result[index][len] = '\0';
+            index++;
+            start = p + 1;
+        }
+        p++;
+    }
+    // Dernier segment
+    size_t len = (size_t)(p - start);
+    result[index] = malloc(len + 1);
+    if (result[index] == NULL) {
+        for (size_t i = 0; i < index; i++) {
+            free(result[i]);
+        }
+        free(result);
+        return NULL;
+    }
+    memcpy(result[index], start, len);
+    result[index][len] = '\0';
+
+    *out_count = count;
+    return result;
+}
+
+char* str_join(const char** strings, size_t count, const char* separator) {
+    if (strings == NULL || separator == NULL) return NULL;
+
+    size_t total_len = 0;
+    size_t sep_len = strlen(separator);
+
+    for (size_t i = 0; i < count; i++) {
+        if (strings[i] == NULL) {
+            total_len += 0;
+        } else {
+            total_len += strlen(strings[i]);
+        }
+        if (i < count - 1) {
+            total_len += sep_len;
+        }
+    }
+
+    char* new_str = malloc(total_len + 1);
+    if (new_str == NULL) return NULL;
+
+    char* dest = new_str;
+    for (size_t i = 0; i < count; i++) {
+        const char* s = strings[i] ? strings[i] : "";
+        size_t len = strlen(s);
+        memcpy(dest, s, len);
+        dest += len;
+
+        if (i < count - 1) {
+            memcpy(dest, separator, sep_len);
+            dest += sep_len;
+        }
+    }
+    *dest = '\0';
 
     return new_str;
 }

@@ -336,6 +336,175 @@ void test_str_isEmptyOrWhitespace() {
     TEST_END();
 }
 
+void test_str_substring() {
+    TEST_START("str_substring");
+
+    char* r1 = str_substring("hello world", 0, 5);
+    ASSERT_STR_EQ("hello", r1);
+    free(r1);
+
+    char* r2 = str_substring("hello world", 6, 11);
+    ASSERT_STR_EQ("world", r2);
+    free(r2);
+
+    // end <= start → extract to end of string
+    char* r3 = str_substring("hello world", 6, 0);
+    ASSERT_STR_EQ("world", r3);
+    free(r3);
+
+    // start >= length → empty string
+    char* r4 = str_substring("hello", 10, 15);
+    ASSERT_STR_EQ("", r4);
+    free(r4);
+
+    // Empty string
+    char* r5 = str_substring("", 0, 0);
+    ASSERT_STR_EQ("", r5);
+    free(r5);
+
+    ASSERT_NULL(str_substring(NULL, 0, 5));
+
+    TEST_END();
+}
+
+void test_str_repeat() {
+    TEST_START("str_repeat");
+
+    char* r1 = str_repeat("abc", 3);
+    ASSERT_STR_EQ("abcabcabc", r1);
+    free(r1);
+
+    char* r2 = str_repeat("x", 5);
+    ASSERT_STR_EQ("xxxxx", r2);
+    free(r2);
+
+    char* r3 = str_repeat("abc", 0);
+    ASSERT_STR_EQ("", r3);
+    free(r3);
+
+    char* r4 = str_repeat("abc", 1);
+    ASSERT_STR_EQ("abc", r4);
+    free(r4);
+
+    char* r5 = str_repeat("", 5);
+    ASSERT_STR_EQ("", r5);
+    free(r5);
+
+    ASSERT_NULL(str_repeat(NULL, 3));
+
+    TEST_END();
+}
+
+void test_str_replace() {
+    TEST_START("str_replace");
+
+    char* r1 = str_replace("hello world", "world", "there");
+    ASSERT_STR_EQ("hello there", r1);
+    free(r1);
+
+    char* r2 = str_replace("abcabc", "abc", "x");
+    ASSERT_STR_EQ("xx", r2);
+    free(r2);
+
+    char* r3 = str_replace("hello", "xyz", "abc");
+    ASSERT_STR_EQ("hello", r3);
+    free(r3);
+
+    // Replace with longer string
+    char* r4 = str_replace("aaa", "a", "bb");
+    ASSERT_STR_EQ("bbbbbb", r4);
+    free(r4);
+
+    // Replace with empty string (deletion)
+    char* r5 = str_replace("hello world", " ", "");
+    ASSERT_STR_EQ("helloworld", r5);
+    free(r5);
+
+    // Empty target → returns copy
+    char* r6 = str_replace("hello", "", "x");
+    ASSERT_STR_EQ("hello", r6);
+    free(r6);
+
+    ASSERT_NULL(str_replace(NULL, "a", "b"));
+    ASSERT_NULL(str_replace("hello", NULL, "b"));
+    ASSERT_NULL(str_replace("hello", "a", NULL));
+
+    TEST_END();
+}
+
+void test_str_split() {
+    TEST_START("str_split");
+
+    size_t count = 0;
+    char** r1 = str_split("apple,banana,cherry", ',', &count);
+    ASSERT_INT_EQ(3, (int)count);
+    ASSERT_STR_EQ("apple", r1[0]);
+    ASSERT_STR_EQ("banana", r1[1]);
+    ASSERT_STR_EQ("cherry", r1[2]);
+    for (size_t i = 0; i < count; i++) free(r1[i]);
+    free(r1);
+
+    // Single element (no delimiter)
+    char** r2 = str_split("hello", ',', &count);
+    ASSERT_INT_EQ(1, (int)count);
+    ASSERT_STR_EQ("hello", r2[0]);
+    free(r2[0]);
+    free(r2);
+
+    // Empty segments
+    char** r3 = str_split(",a,,b,", ',', &count);
+    ASSERT_INT_EQ(5, (int)count);
+    ASSERT_STR_EQ("", r3[0]);
+    ASSERT_STR_EQ("a", r3[1]);
+    ASSERT_STR_EQ("", r3[2]);
+    ASSERT_STR_EQ("b", r3[3]);
+    ASSERT_STR_EQ("", r3[4]);
+    for (size_t i = 0; i < count; i++) free(r3[i]);
+    free(r3);
+
+    // Empty string
+    char** r4 = str_split("", ',', &count);
+    ASSERT_INT_EQ(1, (int)count);
+    ASSERT_STR_EQ("", r4[0]);
+    free(r4[0]);
+    free(r4);
+
+    ASSERT_NULL(str_split(NULL, ',', &count));
+    ASSERT_NULL(str_split("hello", ',', NULL));
+
+    TEST_END();
+}
+
+void test_str_join() {
+    TEST_START("str_join");
+
+    const char* arr1[] = {"apple", "banana", "cherry"};
+    char* r1 = str_join(arr1, 3, ", ");
+    ASSERT_STR_EQ("apple, banana, cherry", r1);
+    free(r1);
+
+    const char* arr2[] = {"hello"};
+    char* r2 = str_join(arr2, 1, " ");
+    ASSERT_STR_EQ("hello", r2);
+    free(r2);
+
+    const char* arr3[] = {"a", "b", "c"};
+    char* r3 = str_join(arr3, 3, "");
+    ASSERT_STR_EQ("abc", r3);
+    free(r3);
+
+    // NULL element handled gracefully
+    const char* arr4[] = {"hello", NULL, "world"};
+    char* r4 = str_join(arr4, 3, "-");
+    ASSERT_STR_EQ("hello--world", r4);
+    free(r4);
+
+    ASSERT_NULL(str_join(NULL, 3, ", "));
+    ASSERT_NULL(str_join(arr1, 3, NULL));
+
+    TEST_END();
+}
+
 int run_all_tests() {
     printf("--- ⚙️ RUNNING ALL TESTS ---\n");
     test_str_trim();
@@ -354,6 +523,11 @@ int run_all_tests() {
     test_str_isNumeric();
     test_str_isAlpha();
     test_str_isEmptyOrWhitespace();
+    test_str_substring();
+    test_str_repeat();
+    test_str_replace();
+    test_str_split();
+    test_str_join();
     printf("--- ✅ ALL TESTS PASSED SUCCESSFULLY ---\n");
     return 0;
 }

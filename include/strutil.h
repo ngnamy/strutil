@@ -327,6 +327,13 @@ char* str_replace(const char* str, const char* target, const char* replacement);
 char** str_split(const char* str, char delimiter, size_t* out_count);
 
 /**
+ * @brief Libère la mémoire allouée par str_split.
+ * @param parts Le tableau de chaînes retourné par str_split.
+ * @param count Le nombre d'éléments dans le tableau.
+ */
+void str_split_free(char** parts, size_t count);
+
+/**
  * @brief Cette fonction joint un tableau de chaînes de caractères en une seule chaîne en utilisant un séparateur spécifié.
  * @param strings Un tableau de chaînes de caractères à joindre.
  * @param count Le nombre de chaînes dans le tableau.
@@ -341,5 +348,5 @@ char** str_split(const char* str, char delimiter, size_t* out_count);
  *   char* result2 = str_join(string2, 1, ", ");  // "hello"
  *   free(result2);
  */
-char** str_join(const char** strings, size_t count, const char* separator);
+char* str_join(const char** strings, size_t count, const char* separator);
 #endif /* STRUTIL_H */

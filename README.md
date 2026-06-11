@@ -56,15 +56,16 @@ Conçue avec C11, cette bibliothèque met l'accent sur :
 ### 🔹 Module 5 : Édition, Recherche & Découpage (Advanced)
 *Les fonctions de manipulation avancée de la mémoire.*
 
-- [ ] **str_substring** : Extrait de manière sécurisée une portion de la chaîne (génère une copie)
-- [ ] **str_repeat** : Répète une chaîne N fois
-- [ ] **str_replace** : Remplace toutes les occurrences d'un sous-mot par un autre (génère une copie)
-- [ ] **str_split** : Découpe une chaîne selon un délimiteur et renvoie un tableau de chaînes (char **)
-- [ ] **str_join** : Prend un tableau de chaînes (char **) et les fusionne en une seule chaîne
+- [x] **str_substring** : Extrait de manière sécurisée une portion de la chaîne (génère une copie)
+- [x] **str_repeat** : Répète une chaîne N fois
+- [x] **str_replace** : Remplace toutes les occurrences d'un sous-mot par un autre (génère une copie)
+- [x] **str_split** : Découpe une chaîne selon un délimiteur et renvoie un tableau de chaînes (char **)
+- [x] **str_split_free** : Libère la mémoire allouée par str_split
+- [x] **str_join** : Prend un tableau de chaînes (char **) et les fusionne en une seule chaîne
 
 ### 🔹 Module 6 : Tests & Qualité (Engineering)
 - [x] Créer le fichier d'en-tête global `strutil.h`
-- [ ] Écrire la suite complète de tests unitaires avec `assert.h` dans `test_strutil.c`
+- [x] Écrire la suite complète de tests unitaires avec `assert.h` dans `test_strutil.c`
 - [x] Écrire un `Makefile` pour automatiser la compilation du projet et des tests
 
 ## 🔧 Compilation
@@ -338,44 +339,52 @@ int result4 = str_isEmptyOrWhitespace(NULL);    // 1 (true - NULL)
 
 ---
 
-### Module 5 : Advanced (Édition, Recherche & Découpage) ⏳ À faire
+### Module 5 : Advanced (Édition, Recherche & Découpage) ✅ Complet
 
-#### `char* str_substring(const char* str, size_t start, size_t length)` ⏳
+#### `char* str_substring(const char* str, size_t start, size_t end)` ✅
 Extrait de manière sécurisée une portion de la chaîne.
 ```c
-// À implémenter
-// char* result = str_substring("hello world", 0, 5);  // "hello"
-// free(result);
+char* result = str_substring("hello world", 0, 5);  // "hello"
+free(result);
 ```
 
-#### `char* str_repeat(const char* str, size_t count)` ⏳
+#### `char* str_repeat(const char* str, size_t count)` ✅
 Répète une chaîne N fois.
 ```c
-// char* result = str_repeat("ab", 3);  // "ababab"
-// free(result);
+char* result = str_repeat("abc", 3);  // "abcabcabc"
+free(result);
 ```
 
-#### `char* str_replace(const char* str, const char* find, const char* replace_with)` ⏳
+#### `char* str_replace(const char* str, const char* target, const char* replacement)` ✅
 Remplace toutes les occurrences d'un sous-mot par un autre.
 ```c
-// char* result = str_replace("hello world", "world", "there");  // "hello there"
-// free(result);
+char* result = str_replace("hello world", "world", "there");  // "hello there"
+free(result);
 ```
 
-#### `char** str_split(const char* str, const char* delimiter, int* count)` ⏳
+#### `char** str_split(const char* str, char delimiter, size_t* out_count)` ✅
 Découpe une chaîne selon un délimiteur et renvoie un tableau de chaînes.
 ```c
-// int count = 0;
-// char** parts = str_split("a,b,c", ",", &count);  // ["a", "b", "c"], count = 3
-// // Libérer la mémoire
+size_t count = 0;
+char** parts = str_split("a,b,c", ',', &count);  // ["a", "b", "c"], count = 3
+// ... utiliser parts ...
+str_split_free(parts, count);  // Libère toute la mémoire allouée
 ```
 
-#### `char* str_join(char** strings, int count, const char* separator)` ⏳
+#### `void str_split_free(char** parts, size_t count)` ✅
+Libère la mémoire allouée par `str_split`.
+```c
+size_t count;
+char** parts = str_split("a,b,c", ',', &count);
+str_split_free(parts, count);
+```
+
+#### `char* str_join(const char** strings, size_t count, const char* separator)` ✅
 Fusionne un tableau de chaînes en une seule chaîne.
 ```c
-// char* arr[] = {"hello", "world"};
-// char* result = str_join(arr, 2, " ");  // "hello world"
-// free(result);
+const char* arr[] = {"hello", "world"};
+char* result = str_join(arr, 2, " ");  // "hello world"
+free(result);
 ```
 
 ---
@@ -388,8 +397,8 @@ Fusionne un tableau de chaînes en une seule chaîne.
 | 2. Padding | ✅ Complet | 6/6 (100%) |
 | 3. Casing | ✅ Complet | 8/8 (100%) |
 | 4. Predicates | ✅ Complet | 6/6 (100%) |
-| 5. Advanced | ⏳ En cours | 0/5 (0%) |
-| **Total** | **ℹ️ En développement** | **26/30 (87%)** |
+| 5. Advanced | ✅ Complet | 6/6 (100%) |
+| **Total** | **✅ Complet** | **32/32 (100%)** |
 
 ## 📝 Gestion Mémoire
 

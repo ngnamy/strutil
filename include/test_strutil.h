@@ -26,4 +26,10 @@ void test_str_isNumeric();
 void test_str_isAlpha();
 void test_str_isEmptyOrWhitespace();
 
+void test_str_substring();
+void test_str_repeat();
+void test_str_replace();
+void test_str_split();
+void test_str_join();
+
 #endif //STRUTIL_TEST_STRUTIL_H

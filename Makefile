@@ -36,4 +36,10 @@ clean:
 test: all
 	./$(TARGET)
 
-.PHONY: all clean test
+# Debug build with sanitizers
+debug: CFLAGS += -fsanitize=address,undefined -g
+debug: LDFLAGS += -fsanitize=address,undefined
+debug: clean all
+	./$(TARGET)
+
+.PHONY: all clean test debug
