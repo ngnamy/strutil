@@ -270,15 +270,17 @@ int str_isEmptyOrWhitespace(const char* str);
 /**
  * @brief Cette fonction extrait une sous-chaîne d'une chaîne donnée.
  * @param str La chaîne de caractères source à traiter.
+ * @param start L'index de début de la sous-chaîne à extraire (0-based).
+ * @param end L'index de fin de la sous-chaîne à extraire (exclusif). Si end est inférieur ou égal à start, la fonction extrait jusqu'à la fin de la chaîne.
  * @return Un pointeur vers la nouvelle chaîne allouée contenant la sous-chaîne extraite, ou NULL si l'allocation échoue.
  * @note L'utilisateur est responsable de libérer de la mémoire avec free().
  * @example
- *   char* result = str_substring("hello world");  // "hello world" (extrait la chaîne entière dans cet exemple)
+ *   char* result = str_substring("hello world", 0, 5);  // "hello" (extrait les 5 premiers caractères)
  *   free(result);
  *   char* result2 = str_substring("hello world", 0, 5);  // "hello" (extrait les 5 premiers caractères)
  *   free(result2);
  */
-char* str_substring(const char* str);
+char* str_substring(const char* str, size_t start, size_t end);
 
 /**
  * @brief Cette fonction répète une chaîne de caractères un nombre spécifié de fois.

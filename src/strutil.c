@@ -416,3 +416,29 @@ int str_isEmptyOrWhitespace(const char* str) {
     }
     return 1;
 }
+
+char* str_substring(const char* str, size_t start, size_t end) {
+    if (str == NULL) return NULL;
+
+    size_t full_len = strlen(str);
+
+    if (start >= full_len) {
+        char* empty = malloc(1);
+        if (empty) *empty = '\0';
+        return empty;
+    }
+
+    // Si end est invalide ou <= start, on va jusqu'à la fin (selon la spec)
+    if (end <= start || end > full_len) {
+        end = full_len;
+    }
+
+    size_t sub_len = end - start;
+    char* new_str = malloc(sub_len + 1);
+    if (new_str == NULL) return NULL;
+
+    memcpy(new_str, str + start, sub_len);
+    new_str[sub_len] = '\0';
+
+    return new_str;
+}
